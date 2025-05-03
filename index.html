@@ -13,7 +13,63 @@
       justify-content: center;
       min-height: 100vh;
       margin: 0;
+      position: relative;
+      overflow: hidden;
     }
+
+    .heart-bg {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 150px;
+      height: 135px;
+      transform: translate(-50%, -50%) scale(0);
+      z-index: 0;
+      display: none;
+      animation: drawHeart 2s forwards;
+    }
+
+    .heart-bg::before,
+    .heart-bg::after {
+      content: "";
+      position: absolute;
+      width: 100px;
+      height: 160px;
+      background: red;
+      border-radius: 100px 100px 0 0;
+      transform: rotate(-45deg);
+      transform-origin: 0 100%;
+      opacity: 0;
+      animation: appear 2s forwards;
+    }
+
+    .heart-bg::after {
+      left: 0;
+      transform: rotate(45deg);
+      transform-origin: 100% 100%;
+    }
+
+    @keyframes appear {
+      0% {
+        opacity: 0;
+        transform: scale(0.5) rotate(0deg);
+      }
+      100% {
+        opacity: 0.2;
+      }
+    }
+
+    @keyframes drawHeart {
+      0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+    }
+
     .card {
       background-color: #fff;
       border-radius: 20px;
@@ -22,8 +78,9 @@
       text-align: center;
       max-width: 400px;
       position: relative;
-      overflow: hidden;
+      z-index: 2;
     }
+
     h1 {
       color: #ec4899;
     }
@@ -50,78 +107,26 @@
       color: green;
       font-size: 20px;
       margin-top: 20px;
+      z-index: 3;
       position: relative;
-      z-index: 2;
-    }
-
-    /* ❤️ หัวใจตรงกลางหลังข้อความ */
-    .heart {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 100px;
-      height: 90px;
-      transform: translate(-50%, -50%) scale(1);
-      z-index: 1;
-      animation: drawHeart 2s forwards;
-    }
-
-    .heart::before,
-    .heart::after {
-      content: "";
-      position: absolute;
-      width: 100px;
-      height: 160px;
-      background: red; /* ✅ สีแดง */
-      border-radius: 100px 100px 0 0;
-      transform: rotate(-45deg);
-      transform-origin: 0 100%;
-      opacity: 0;
-      animation: appear 2s forwards;
-    }
-
-    .heart::after {
-      left: 0;
-      transform: rotate(45deg);
-      transform-origin: 100% 100%;
-    }
-
-    @keyframes appear {
-      0% {
-        opacity: 0;
-        transform: scale(0.5) rotate(0deg);
-      }
-      100% {
-        opacity: 1;
-      }
-    }
-
-    @keyframes drawHeart {
-      0% {
-        transform: translate(-50%, -50%) scale(0);
-        opacity: 0;
-      }
-      100% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 1;
-      }
     }
   </style>
 </head>
 <body>
+    <div class="heart-bg" id="heart-bg"></div>
+
   <div class="card">
-    <h1>ถึงเดียร์ 💖</h1>
+    <h1>ถึงหม่ามี๊คนจ๋วยของป๋ม 💖</h1>
     <p id="apology-text">
-      เค้าขอโทษนะที่ทำให้เดียร์เสียใจ 😢<br>
-      เค้าจะไม่ทำให้เดียร์ร้องไห้อีกแล้ว<br>
-      ยกโทษให้เค้าได้มั้ย 🥺
+      ป๋มขอโทษที่ทำให้หม่ามี๊เสียใจ 😢<br>
+      ป๋มจะไม่ทำให้หม่ามี๊งอนอีกแย้ว<br>
+      ยกโทษให้หมาเด็กตัวเล็กๆน่ารักๆได้มั้ยครับ 🥺
     </p>
     <button id="forgive-btn" class="btn" onclick="forgive()">เค้ายกโทษให้ก็ได้ 💕</button>
     <button id="nope-btn" class="btn" onclick="growForgive()">ยังไม่ยกโทษ! 😠</button>
     <div class="message" id="forgive-msg" style="display: none;">
-      ขอบคุณน้า เค้ารักเดียร์ที่สุดเลยน้าาาา 💞
+      ขอบคุณน้า เค้ารักเธอที่สุดในโลกเลยน้าาาารู้มั้ย เค้าไม่เสียใจเลยที่เลือกเธอ อาจจะทะเลาะกันบ้าง งอนกันบ้างแต่เราก็ยังปรับเปลี่ยนกันและเข้าใจกันและกัน มันทำให้คู่เรารักกันมากๆๆๆๆๆเลยนะ ลูกๆคงอิจฉาความหวานเราแน่ๆเลย <br> ขอบคุณนะครับที่เลือกต้าเป็นคุณแฟนของเดียร์ที่สวยและน่ารักที่สุดในหัวใจหมาน้อย 💞
     </div>
-    <div class="heart" id="heart" style="display: none;"></div>
   </div>
 
   <script>
@@ -129,14 +134,14 @@
     let noBtn = document.getElementById("nope-btn");
     let apologyText = document.getElementById("apology-text");
     let forgiveMsg = document.getElementById("forgive-msg");
-    let heart = document.getElementById("heart");
+    let heartBg = document.getElementById("heart-bg");
 
     function forgive() {
       apologyText.style.display = "none";
       forgiveBtn.style.display = "none";
       noBtn.style.display = "none";
       forgiveMsg.style.display = "block";
-      heart.style.display = "block";
+      heartBg.style.display = "block";
     }
 
     function growForgive() {
@@ -148,3 +153,93 @@
   </script>
 </body>
 </html>
+
+<!-- ...ส่วนเดิมเหมือนด้านบน... -->
+<!-- หัวใจพื้นหลังลอยขึ้น -->
+<style>
+    .floating-heart {
+      position: fixed;
+      bottom: -30px;
+      font-size: 24px;
+      color: red;
+      animation: floatUp 5s linear forwards;
+      pointer-events: none;
+      z-index: 0;
+    }
+  
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-120vh) scale(1.5);
+        opacity: 0;
+      }
+    }
+  </style>
+  
+  <script>
+    // เพิ่มจากเดิม
+    function createFloatingHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("floating-heart");
+      heart.innerText = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = Math.random() * 20 + 20 + "px";
+      document.body.appendChild(heart);
+  
+      // ลบออกเมื่อจบ animation
+      setTimeout(() => {
+        heart.remove();
+      }, 5000);
+    }
+  
+    function startHeartRain() {
+      setInterval(createFloatingHeart, 300);
+    }
+  
+    function forgive() {
+      apologyText.style.display = "none";
+      forgiveBtn.style.display = "none";
+      noBtn.style.display = "none";
+      forgiveMsg.style.display = "block";
+      heartBg.style.display = "block";
+      startHeartRain(); // 💖 เริ่มลอยหัวใจ
+    }
+    let counter = 0;
+
+function growForgive() {
+  // ข้อความถามแน่ใจ
+  const texts = [
+    "หม่ามี๊แน่ใจหรอว่าจะไม่ยกโทษให้เค้า 😢",
+    "จริงดิ... จะไม่ให้อภัยคนตาน่ารักแบบนี้หรอ 🥺",
+    "ใจร้ายจังเลย หมาเด็กเสียใจนะ 😭",
+    "แน่ใจจริงๆ หรอ หมาเด็กน่ารักขนาดนี้เลยนะ 🐶💕",
+    "จะยอมเลี้ยงขนมอร่อยๆเยอะๆเลย จะไม่ให้จริงๆหรอ 😭",
+    "ง่ะ เดียร์เอาจิงหยอ บ้าหน่าเดียร์ไม่ใช่คนใจร้ายขนาดนั้นสักหน่อย",
+    "งะ... เค้าขอโทษนะ เค้าจะไม่ทำอีกแล้ว 😭",
+    "มาถึงตรงนี้เดียร์คงงอนต้ามากแน่ๆต้าพยายามหาทางง้อทุกทางและคิดว่านี่คือทางที่ดีที่สุดแล้วนะ บางอย่างต้าอาจจะทำไปไม่ได้คิดจริงๆคำพูดน้ำเสียงท่าทางต่างๆอาจจะทำให้เดียร์ไม่สบายใจต้าก็ขอโทษจริงๆนะ \n ต้าอาจจะไม่ใช่คนที่ดีที่สุดในโลก แต่ต้าจะพยายามเป็นคนที่ดีที่สุดสำหรับเดียร์ให้ได้เลย รักเดียร์นะ💕",
+  ];
+
+  // เปลี่ยนข้อความ
+  apologyText.innerHTML = texts[Math.min(counter, texts.length - 1)];
+
+  // ปรับขนาดปุ่ม
+  let forgiveSize = parseFloat(window.getComputedStyle(forgiveBtn).fontSize);
+  forgiveBtn.style.fontSize = (forgiveSize * 1.2) + "px";
+
+  let nopeSize = parseFloat(window.getComputedStyle(noBtn).fontSize);
+  nopeSize = Math.max(nopeSize * 0.8, 10); // ไม่เล็กจนหาย
+  noBtn.style.fontSize = nopeSize + "px";
+
+  counter++;
+
+  if (counter >= texts.length) {
+    noBtn.style.display = "none";
+  }
+}
+
+
+  </script>
+  
