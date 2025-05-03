@@ -1,0 +1,36 @@
+import React, { useState } from "react";
+
+export default function ApologyToDear() {
+  const [forgiven, setForgiven] = useState(false);
+
+  const handleForgive = () => {
+    setForgiven(true);
+  };
+
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-pink-100 text-center p-6">
+      <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full">
+        <h1 className="text-3xl font-bold text-pink-600 mb-4">ถึงเดียร์ 💖</h1>
+        {!forgiven ? (
+          <>
+            <p className="text-lg text-gray-700 mb-6">
+              เค้าขอโทษนะที่ทำให้เดียร์เสียใจ 😢 <br />
+              เค้าผิดเอง เค้าจะพยายามเป็นคนที่ดีขึ้นเพื่อเดียร์นะ <br />
+              อยากให้เรากลับมายิ้มให้กันเหมือนเดิมนะ 🥺
+            </p>
+            <button
+              onClick={handleForgive}
+              className="bg-pink-500 text-white px-6 py-2 rounded-full text-lg hover:bg-pink-600 transition"
+            >
+              เค้ายกโทษให้ก็ได้ 💕
+            </button>
+          </>
+        ) : (
+          <p className="text-xl text-green-600 font-semibold">
+            ขอบคุณนะเดียร์ เค้ารักเดียร์ที่สุดเลยน้าาาาา 💞
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
