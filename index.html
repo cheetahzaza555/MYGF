@@ -21,6 +21,8 @@
       padding: 30px;
       text-align: center;
       max-width: 400px;
+      position: relative;
+      overflow: hidden;
     }
     h1 {
       color: #ec4899;
@@ -38,7 +40,8 @@
       border-radius: 999px;
       font-size: 16px;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: all 0.3s ease;
+      margin: 5px;
     }
     .btn:hover {
       background-color: #db2777;
@@ -47,6 +50,59 @@
       color: green;
       font-size: 20px;
       margin-top: 20px;
+      position: relative;
+      z-index: 2;
+    }
+    .heart {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100px;
+      height: 90px;
+      transform: translate(-50%, -50%) scale(1);
+      z-index: 1;
+      animation: drawHeart 2s forwards;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 100px;
+      height: 160px;
+      background: #ec4899;
+      border-radius: 100px 100px 0 0;
+      transform: rotate(-45deg);
+      transform-origin: 0 100%;
+      opacity: 0;
+      animation: appear 2s forwards;
+    }
+
+    .heart::after {
+      left: 0;
+      transform: rotate(45deg);
+      transform-origin: 100% 100%;
+    }
+
+    @keyframes appear {
+      0% {
+        opacity: 0;
+        transform: scale(0.5) rotate(0deg);
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes drawHeart {
+      0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
     }
   </style>
 </head>
@@ -58,17 +114,34 @@
       เค้าจะไม่ทำให้เดียร์ร้องไห้อีกแล้ว<br>
       ยกโทษให้เค้าได้มั้ย 🥺
     </p>
-    <button class="btn" onclick="forgive()">เค้ายกโทษให้ก็ได้ 💕</button>
+    <button id="forgive-btn" class="btn" onclick="forgive()">เค้ายกโทษให้ก็ได้ 💕</button>
+    <button id="nope-btn" class="btn" onclick="growForgive()">ยังไม่ยกโทษ! 😠</button>
     <div class="message" id="forgive-msg" style="display: none;">
       ขอบคุณน้า เค้ารักเดียร์ที่สุดเลยน้าาาา 💞
     </div>
+    <div class="heart" id="heart" style="display: none;"></div>
   </div>
 
   <script>
+    let forgiveBtn = document.getElementById("forgive-btn");
+    let noBtn = document.getElementById("nope-btn");
+    let apologyText = document.getElementById("apology-text");
+    let forgiveMsg = document.getElementById("forgive-msg");
+    let heart = document.getElementById("heart");
+
     function forgive() {
-      document.getElementById("apology-text").style.display = "none";
-      document.querySelector("button").style.display = "none";
-      document.getElementById("forgive-msg").style.display = "block";
+      apologyText.style.display = "none";
+      forgiveBtn.style.display = "none";
+      noBtn.style.display = "none";
+      forgiveMsg.style.display = "block";
+      heart.style.display = "block";
+    }
+
+    function growForgive() {
+      let currentSize = window.getComputedStyle(forgiveBtn).fontSize;
+      let newSize = parseFloat(currentSize) * 1.2;
+      forgiveBtn.style.fontSize = newSize + "px";
+      forgiveBtn.style.padding = (parseFloat(forgiveBtn.style.padding || 12) * 1.2) + "px";
     }
   </script>
 </body>
