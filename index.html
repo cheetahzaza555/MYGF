@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ถึงเดียร์ 💖</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffe4e6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background-color: #fff;
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      padding: 30px;
+      text-align: center;
+      max-width: 400px;
+    }
+    h1 {
+      color: #ec4899;
+    }
+    p {
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #444;
+    }
+    .btn {
+      background-color: #ec4899;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background-color: #db2777;
+    }
+    .message {
+      color: green;
+      font-size: 20px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>ถึงเดียร์ 💖</h1>
+    <p id="apology-text">
+      เค้าขอโทษนะที่ทำให้เดียร์เสียใจ 😢<br>
+      เค้าจะไม่ทำให้เดียร์ร้องไห้อีกแล้ว<br>
+      ยกโทษให้เค้าได้มั้ย 🥺
+    </p>
+    <button class="btn" onclick="forgive()">เค้ายกโทษให้ก็ได้ 💕</button>
+    <div class="message" id="forgive-msg" style="display: none;">
+      ขอบคุณน้า เค้ารักเดียร์ที่สุดเลยน้าาาา 💞
+    </div>
+  </div>
+
+  <script>
+    function forgive() {
+      document.getElementById("apology-text").style.display = "none";
+      document.querySelector("button").style.display = "none";
+      document.getElementById("forgive-msg").style.display = "block";
+    }
+  </script>
+</body>
+</html>
